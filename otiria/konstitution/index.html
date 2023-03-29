@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+  <script>
+    async function onLoad() {
+      var converter = new showdown.Converter();
+      const LATEST_VERSION = "2023_03_29"
+      text = await (await fetch(new URL(LATEST_VERSION+".md", new URL("../../filer/otiria/konstitutioner/", window.location.href)))).text();
+      console.log(text)
+      html = converter.makeHtml(text);
+      console.log(html)
+      document.body.innerHTML += html
+    }
+    $(onLoad)
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
