@@ -21,13 +21,15 @@ class HeaderControl {
     const values = rgbString.slice(rgbString.indexOf('(') + 1, rgbString.indexOf(')')).split(',')
     const rgb: { r: number, g: number, b: number } = { r: null, g: null, b: null }
 
+    // https://stackoverflow.com/a/11868159
+
     rgb.r = parseInt(values[0])
     rgb.g = parseInt(values[1])
     rgb.b = parseInt(values[2])
 
-    const brightness = Math.round(((rgb[0] * 299) +
-      (rgb[1] * 587) +
-      (rgb[2] * 114)) / 1000);
+    const brightness = Math.round(((rgb.r * 299) +
+      (rgb.g * 587) +
+      (rgb.b * 114)) / 1000);
     const textColour = (brightness > 125) ? 'black' : 'white';
 
     return textColour
