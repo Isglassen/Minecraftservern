@@ -1,9 +1,10 @@
 {
   "$id": "https://isglassen.github.io/Minecraftservern/schema/pages.schema.json",
-  "type": "array",
-  "items": {
-    "description": "A list of page information",
 
+  "description": "A list of page information",
+  "type": "array",
+  
+  "items": {
     "type": "object",
     "required": [ "color", "name", "categories", "link" ],
     "properties": {
