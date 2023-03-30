@@ -1,0 +1,32 @@
+{
+  "$id": "https://isglassen.github.io/Minecraftservern/schema/pages.schema.json",
+  "type": "array",
+  "items": {
+    "description": "A list of page information",
+
+    "type": "object",
+    "required": [ "color", "name", "categories", "link" ],
+    "properties": {
+
+      "color": {
+        "description": "The color to display for this page",
+        "type": "string"
+      },
+
+      "name": {
+        "description": "The name to display for this page",
+        "type": "string"
+      },
+
+      "categories": {
+        "$ref": "https://isglassen.github.io/Minecraftservern/schema/pages.schema.json"
+      },
+
+      "link": {
+        "description": "The link to this page. Has to be relative for now",
+        "type": "string"
+      }
+
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$id": "https://isglassen.github.io/Minecraftservern/schema/pagesContainer.schema.json",
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "description": "A container for page data, and options for how to read them",
+  "required": [ "pages" ],
+  "properties": {
+    "pages": {
+      "$ref": "https://isglassen.github.io/Minecraftservern/schema/pages.schema.json"
+    },
+    "options": {
+      "description": "Options for how to read the page data",
+      "type": "object",
+      "properties": {
+        "basePath": {
+          "description": "The path to append to the start of any relative page link",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
