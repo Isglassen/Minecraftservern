@@ -5,35 +5,52 @@
   <title>
     Otiria konstitution
   </title>
+
+  <link rel="stylesheet" href="../../style/style.css" />
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+
+  <script src="../../script/header.js"></script>
+
   <script>
     const LATEST_VERSION = "2023_03_29"
 
     const converter = new showdown.Converter();
 
-    async function onLoad() {
-      let fileUrl = new URL(LATEST_VERSION + ".md", new URL("../../filer/otiria/konstitutioner/", window.location.href))
-      console.log(fileUrl)
+    let headerControl;
 
-      let file = await fetch(fileUrl)
+    async function onLoad() {
+      let fileUrl = new URL(LATEST_VERSION + ".md", new URL("../../filer/otiria/konstitutioner/", window.location.href));
+      console.log(fileUrl);
+
+      let file = await fetch(fileUrl);
       let text = await file.text();
       //console.log(text)
 
       let html = converter.makeHtml(text);
       //console.log(html)
 
-      $("#content").html(html)
+      $("#konstitution").html(html);
 
       $("#download").attr("href", fileUrl);
+
+      let pageDataText = await fetch("../../navigation.json");
+      let pageData = await pageDataText.json();
+      headerControl = new HeaderControl(["Otiria"], pageData, "Konstitution");
     }
     $(onLoad)
   </script>
 </head>
 
 <body>
-  <a id="download" download="konstitution.md">Ladda ner original filen</a>
-  <div id="content">
+  <div class="main-container">
+    <header id="header"></header>
+
+    <a id="download" download="konstitution.md">Ladda ner original filen</a>
+    <div class="file-container">
+      <div class="file" id="konstitution"></div>
+    </div>
 
   </div>
 </body>

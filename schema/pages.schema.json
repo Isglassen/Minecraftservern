@@ -26,6 +26,11 @@
       "link": {
         "description": "The link to this page. Has to be relative for now",
         "type": "string"
+      },
+
+      "gradient": {
+        "description": "A gradient to display instead",
+        "type": "string"
       }
 
     }
