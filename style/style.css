@@ -11,18 +11,25 @@ html, body {
 }
 
 #sub-title {
-  font-size: 5mm;
+  font-size: 4mm;
 }
 
 #header {
   font-family: Arial, sans-serif;
   flex-direction: row;
   align-items: center;
-  padding: 2mm;
-  width: 100%;
+  padding: var(--header-padding);
+  --header-padding: 2mm;
+  width: calc(100% - (2*var(--header-padding)));
   height: 15mm;
   flex-shrink: 0;
   flex-grow: 0;
+  justify-content: space-between;
+}
+
+.major-category {
+  padding: 1mm;
+  font-size: 7.5mm;
 }
 
 .main-container {

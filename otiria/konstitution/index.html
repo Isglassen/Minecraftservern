@@ -37,7 +37,13 @@
 
       let pageDataText = await fetch("../../navigation.json");
       let pageData = await pageDataText.json();
-      headerControl = new HeaderControl(["Otiria"], pageData, "Konstitution");
+
+      if (window.location.hostname == 'localhost') {
+        pageData.options.basePath = window.location.origin
+      }
+      headerControl = new HeaderControl(["Otiria", "Konstitution"], pageData);
+
+      document.getElementById('controls').appendChild(new SelectMenu('version', VERSIONS, LATEST_VERSION, updateHandler).element)
     }
     $(onLoad)
   </script>

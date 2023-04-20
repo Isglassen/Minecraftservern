@@ -2,6 +2,12 @@
   "$schema": "https://isglassen.github.io/Minecraftservern/schema/pagesContainer.schema.json",
   "pages": [
     {
+      "name": "Start",
+      "link": "./start/",
+      "color": "#00f",
+      "categories": []
+    },
+    {
       "name": "Otiria",
       "link": "./otiria/",
       "color": "#7F0",
@@ -11,8 +17,23 @@
           "link": "./otiria/konstitution/",
           "color": "#7F0",
           "categories": []
+        },
+        {
+          "name": "Röstning",
+          "link": "./otiria/röstning/",
+          "color": "#7F0",
+          "categories": []
         }
       ]
+    },
+    {
+      "name": "Filer",
+      "link": "./filer/",
+      "color": "#ff0",
+      "categories": []
     }
-  ]
+  ],
+  "options": {
+    "basePath": "https://isglassen.github.io/Minecraftservern"
+  }
 }
