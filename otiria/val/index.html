@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--TODO-->
-  </head>
-  <body>
-    Här var det inte klart. <a href="https://docs.google.com/spreadsheets/d/119Hdbirsr_TJsir-U2X8NRsCHM4M1TjozK8zR-nsa2k/edit?usp=sharing">Otirias dokument med resultat</a>
-  </body>
+
+<head>
+  <!--TODO-->
+
+  <link rel="stylesheet" href="../../style/style.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+
+  <script src="../../script/header.js"></script>
+
+  <script>
+    $(async () => {
+      let pageDataText = await fetch("../../navigation.json");
+      let pageData = await pageDataText.json();
+
+      if (window.location.hostname == 'localhost') {
+        pageData.options.basePath = window.location.origin
+      }
+      headerControl = new HeaderControl(["Otiria", "Valresultat"], pageData);
+    })
+  </script>
+</head>
+
+<body>
+  <header id="header"></header>
+  Här var det inte klart. <a
+    href="https://docs.google.com/spreadsheets/d/119Hdbirsr_TJsir-U2X8NRsCHM4M1TjozK8zR-nsa2k/edit?usp=sharing">Otirias
+    dokument med resultat</a>
+</body>
+
 </html>

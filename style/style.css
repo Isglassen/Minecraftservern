@@ -1,35 +1,63 @@
-html, body {
+html,
+body {
   background-color: #fafafa;
   margin: 0px;
   height: 100%;
   width: 100%;
   overflow: hidden;
+  --header-size: 20mm;
+}
+
+#page-title {
+  --main-size: 10mm;
+  --sub-size: 4mm;
+  --sub-spacing: 1mm;
+  padding: 2mm;
+  line-height: 1;
+  border-right: 2px solid black;
+  padding-top: calc((var(--header-size) - var(--main-size) - var(--sub-size) - var(--sub-spacing)) / 2);
+  padding-bottom: calc((var(--header-size) - var(--main-size) - var(--sub-size) - var(--sub-spacing)) / 2);
 }
 
 #main-title {
-  font-size: 10mm;
+  font-size: var(--main-size);
 }
 
 #sub-title {
-  font-size: 4mm;
+  padding-top: var(--sub-spacing);
+  font-size: var(--sub-size);
 }
 
 #header {
   font-family: Arial, sans-serif;
   flex-direction: row;
   align-items: center;
-  padding: var(--header-padding);
-  --header-padding: 2mm;
-  width: calc(100% - (2*var(--header-padding)));
-  height: 15mm;
+  width: 100%;
+  height: var(--header-size);
   flex-shrink: 0;
   flex-grow: 0;
+  border-collapse: collapse;
   justify-content: space-between;
+  border-bottom: 2px solid black;
+}
+
+#categories {
+  border-left: 2px solid black;
+  height: var(--header-size);
 }
 
 .major-category {
+  --text-size: 8mm;
+  height: var(--text-size);
+  display: inline-block;
   padding: 1mm;
-  font-size: 7.5mm;
+  padding-top: calc((var(--header-size) - var(--text-size)) / 2);
+  padding-bottom: calc((var(--header-size) - var(--text-size)) / 2);
+  font-size: var(--text-size);
+}
+
+.major-category:not(:last-child) {
+  border-right: 2px solid black;
 }
 
 .main-container {

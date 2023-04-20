@@ -4,7 +4,7 @@
     {
       "name": "Start",
       "link": "./start/",
-      "color": "#00f",
+      "color": "#00F",
       "categories": []
     },
     {
@@ -23,13 +23,19 @@
           "link": "./otiria/röstning/",
           "color": "#7F0",
           "categories": []
+        },
+        {
+          "name": "Valresultat",
+          "link": "./otiria/val/",
+          "color": "#7F0",
+          "categories": []
         }
       ]
     },
     {
       "name": "Filer",
       "link": "./filer/",
-      "color": "#ff0",
+      "color": "#FF0",
       "categories": []
     }
   ],

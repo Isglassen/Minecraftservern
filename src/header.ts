@@ -46,14 +46,13 @@ class HeaderControl {
     const basePath = contentJson.options?.basePath != null ? contentJson.options.basePath : window.location.origin;
 
     current.forEach((name) => {
-      currentData = currentData.categories.filter((value) => value.name == name)[0];
+      currentData = currentData.categories.filter(value => value.name == name)[0];
       console.log(currentData);
       links.push(new URL(currentData.link, basePath));
     });
 
     console.log(links);
 
-    const element = $("#header");
     const element = $("#header");
     this.element = element;
 
@@ -62,16 +61,16 @@ class HeaderControl {
     element.css("display", "flex");
     element.css("background-color", currentData.color);
 
-    element.css("color", this.getTextColor(element.css("background-color")));
-
     const pageTitle = document.createElement("div");
+    pageTitle.id = 'page-title';
+    pageTitle.style.backgroundColor = contentJson.pages.filter(page => page.name == current[0])[0].color;
     pageTitle.style.display = "flex";
     pageTitle.style.flexDirection = "column";
     pageTitle.style.textAlign = "center";
 
-    // TODO: Each of these should actually be a link
     const pageGroup = document.createElement("a");
     pageGroup.appendChild(document.createTextNode(current[0]));
+    pageGroup.style.color = this.getTextColor(pageTitle.style.backgroundColor);
     pageGroup.href = links[0].href;
     pageGroup.id = "main-title";
 
@@ -83,6 +82,7 @@ class HeaderControl {
 
     for (let i = 0; i < subcategories.length; i++) {
       const link = document.createElement('a');
+      link.style.color = this.getTextColor(pageTitle.style.backgroundColor);
       link.classList.add('subcategory');
       link.href = links[i+1].href;
       link.appendChild(document.createTextNode(subcategories[i]));
@@ -104,6 +104,8 @@ class HeaderControl {
       const pageInteractable = document.createElement('span');
       pageInteractable.appendChild(document.createTextNode(page.name));
       pageInteractable.classList.add('major-category');
+      pageInteractable.style.backgroundColor = page.color;
+      pageInteractable.style.color = this.getTextColor(pageInteractable.style.backgroundColor);
       pageInteractable.addEventListener('click', () => {
         this.openSelector(page.name);
       });
