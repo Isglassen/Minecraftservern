@@ -1,7 +1,7 @@
 type pagesContainer = {
   pages: pages;
   options?: {
-    basePath?: string
+    basePath?: string;
   }
 }
 
@@ -14,26 +14,27 @@ type page = {
   link: string;
 }
 
+/* exported HeaderControl */
 class HeaderControl {
   pageData: pagesContainer;
   element: JQuery<HTMLElement>;
 
   public getTextColor(rgbString: string) {
-    const values = rgbString.slice(rgbString.indexOf('(') + 1, rgbString.indexOf(')')).split(',')
-    const rgb: { r: number, g: number, b: number } = { r: null, g: null, b: null }
+    const values = rgbString.slice(rgbString.indexOf('(') + 1, rgbString.indexOf(')')).split(',');
+    const rgb: { r: number, g: number, b: number } = { r: 0, g: 0, b: 0 };
 
     // https://stackoverflow.com/a/11868159
 
-    rgb.r = parseInt(values[0])
-    rgb.g = parseInt(values[1])
-    rgb.b = parseInt(values[2])
+    rgb.r = parseInt(values[0]);
+    rgb.g = parseInt(values[1]);
+    rgb.b = parseInt(values[2]);
 
     const brightness = Math.round(((rgb.r * 299) +
       (rgb.g * 587) +
       (rgb.b * 114)) / 1000);
     const textColour = (brightness > 125) ? 'black' : 'white';
 
-    return textColour
+    return textColour;
   }
 
   constructor(current: string[], contentJson: pagesContainer) {
@@ -45,13 +46,14 @@ class HeaderControl {
     const basePath = contentJson.options?.basePath != null ? contentJson.options.basePath : window.location.origin;
 
     current.forEach((name) => {
-      currentData = currentData.categories.filter((value) => value.name == name)[0]
+      currentData = currentData.categories.filter((value) => value.name == name)[0];
       console.log(currentData);
       links.push(new URL(currentData.link, basePath));
     });
 
     console.log(links);
 
+    const element = $("#header");
     const element = $("#header");
     this.element = element;
 
@@ -60,7 +62,7 @@ class HeaderControl {
     element.css("display", "flex");
     element.css("background-color", currentData.color);
 
-    element.css("color", this.getTextColor(element.css("background-color")))
+    element.css("color", this.getTextColor(element.css("background-color")));
 
     const pageTitle = document.createElement("div");
     pageTitle.style.display = "flex";

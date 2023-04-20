@@ -12,28 +12,36 @@
   <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
 
   <script src="../../script/header.js"></script>
+  <script src="../../script/selectMenu.js"></script>
 
   <script>
-    const LATEST_VERSION = "2023_03_29"
+
+    const VERSIONS = [
+      "2023-03-29"
+    ]
+
+    const LATEST_VERSION = VERSIONS[0]
 
     const converter = new showdown.Converter();
 
     let headerControl;
 
     async function onLoad() {
-      let fileUrl = new URL(LATEST_VERSION + ".md", new URL("../../filer/otiria/konstitutioner/", window.location.href));
-      console.log(fileUrl);
+      updateHandler = async (oldVal, newVal) => {
+        let fileUrl = new URL(newVal + ".md", new URL("../../filer/otiria/konstitutioner/", window.location.href));
+        console.log(fileUrl);
 
-      let file = await fetch(fileUrl);
-      let text = await file.text();
-      //console.log(text)
+        let file = await fetch(fileUrl);
+        let text = await file.text();
+        //console.log(text)
 
-      let html = converter.makeHtml(text);
-      //console.log(html)
+        let html = converter.makeHtml(text);
+        //console.log(html)
 
-      $("#konstitution").html(html);
+        $("#konstitution").html(html);
 
-      $("#download").attr("href", fileUrl);
+        $("#download").attr("href", fileUrl).attr("download", `konstitution (${newVal}).md`);
+      }
 
       let pageDataText = await fetch("../../navigation.json");
       let pageData = await pageDataText.json();
@@ -45,7 +53,7 @@
 
       document.getElementById('controls').appendChild(new SelectMenu('version', VERSIONS, LATEST_VERSION, updateHandler).element)
     }
-    $(onLoad)
+    $(onLoad);
   </script>
 </head>
 
@@ -53,7 +61,9 @@
   <div class="main-container">
     <header id="header"></header>
 
-    <a id="download" download="konstitution.md">Ladda ner original filen</a>
+    <div id="controls">
+      <a id="download" download="konstitution.md">Ladda ner original filen</a>
+    </div>
     <div class="file-container">
       <div class="file" id="konstitution"></div>
     </div>
