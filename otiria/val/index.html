@@ -10,9 +10,35 @@
   <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
 
   <script src="../../script/header.js"></script>
+  <script src="../../script/selectMenu.js"></script>
 
   <script>
+
+    const VERSIONS = [
+      "2023-04-05"
+    ]
+
+    const LATEST_VERSION = VERSIONS[0]
+
+    const converter = new showdown.Converter();
+
+    let headerControl;
+
     $(async () => {
+      updateHandler = async (oldVal, newVal) => {
+        let fileUrl = new URL(newVal + ".md", new URL("../../filer/otiria/val/", window.location.href));
+        console.log(fileUrl);
+
+        let file = await fetch(fileUrl);
+        let text = await file.text();
+        //console.log(text)
+
+        let html = converter.makeHtml(text);
+        //console.log(html)
+
+        $("#resultat").html(html);
+      }
+
       let pageDataText = await fetch("../../navigation.json");
       let pageData = await pageDataText.json();
 
@@ -20,14 +46,21 @@
         pageData.options.basePath = window.location.origin
       }
       headerControl = new HeaderControl(["Otiria", "Valresultat"], pageData);
+
+      document.getElementById('controls').appendChild(new SelectMenu('version', VERSIONS, LATEST_VERSION, updateHandler).element)
     })
   </script>
 </head>
 
 <body>
-  <header id="header"></header>
+  <div class="main-container">
+    <header id="header"></header>
 
-  Här var det inte klart.
+    <div id="controls"></div>
+    <div class="file-container">
+      <div class="file" id="resultat"></div>
+    </div>
+  </div>
 </body>
 
 </html>
