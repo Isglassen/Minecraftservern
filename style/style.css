@@ -30,6 +30,7 @@ body {
 }
 
 #header {
+  font-family: Arial, sans-serif;
   user-select: none;
   flex-direction: column;
   display: flex;
@@ -41,7 +42,6 @@ body {
 #main-header {
   display: flex;
   flex-wrap: nowrap;
-  font-family: Arial, sans-serif;
   flex-direction: row;
   align-items: center;
   width: 100%;

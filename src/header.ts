@@ -14,9 +14,12 @@ type page = {
   link: string;
 }
 
+// TODO: Try to automatically determine the correct current path
+
 /* exported HeaderControl */
 class HeaderControl {
   pageData: pagesContainer;
+  currentPage: string[];
   element: JQuery<HTMLElement>;
   currentlySelecting: string[] = [];
 
@@ -28,6 +31,14 @@ class HeaderControl {
     });
 
     return currentData;
+  }
+
+  private arrayEquals<T>(a: T[], b: T[]) {
+    if (a.length != b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
   }
 
   public getTextColor(rgbString: string) {
@@ -49,6 +60,7 @@ class HeaderControl {
   }
 
   constructor(current: string[], contentJson: pagesContainer) {
+    this.currentPage = [...current];
     this.pageData = contentJson;
 
     let currentData: page = { color: "", name: "", link: "", categories: contentJson.pages };
@@ -91,6 +103,8 @@ class HeaderControl {
     pageGroup.style.color = this.getTextColor(pageTitle.style.backgroundColor);
     if (subcategories.length > 0) {
       pageGroup.href = links[0].href;
+    } else {
+      pageGroup.style.fontWeight = 'bold';
     }
     pageGroup.id = "main-title";
 
@@ -108,6 +122,8 @@ class HeaderControl {
       if (i + 1 != subcategories.length) {
         link.href = links[i+1].href;
         currentCatagory.appendChild(document.createTextNode(' > '));
+      } else {
+        link.style.fontWeight = 'bold';
       }
     }
 
@@ -128,11 +144,25 @@ class HeaderControl {
       pageInteractable.style.backgroundColor = page.color;
       pageInteractable.style.color = this.getTextColor(pageInteractable.style.backgroundColor);
       if (page.categories.length > 0) {
-        pageInteractable.addEventListener('click', () => {
+        pageInteractable.style.fontStyle = 'italic';
+        const openCallback = () => {
+          console.log('open');
           this.open([page.name]);
-        });
-      } else {
+          pageInteractable.removeEventListener('click', openCallback);
+          pageInteractable.addEventListener('click', closeCallback);
+        };
+        const closeCallback = () => {
+          console.log('close');
+          this.close(0);
+          pageInteractable.removeEventListener('click', closeCallback);
+          pageInteractable.addEventListener('click', openCallback);
+        };
+        pageInteractable.addEventListener('click', openCallback);
+      } else if (!this.arrayEquals([page.name], this.currentPage)) {
         pageInteractable.href = new URL(page.link, this.pageData.options?.basePath).href;
+      } 
+      if (this.arrayEquals([page.name], this.currentPage)) {
+        pageInteractable.style.fontWeight = 'bold';
       }
 
       menues.appendChild(pageInteractable);
@@ -143,12 +173,11 @@ class HeaderControl {
   }
 
   close(level: number) {
+    this.currentlySelecting = this.currentlySelecting.slice(0, level);
     this.element.find(`div.minor-select:nth-child(n+${level+2})`).remove();
   }
 
   open(id: string[]) {
-    // TODO: Clicking again should simply run close
-
     // Check how many levels to remove
     let level = 0;
 
@@ -171,15 +200,21 @@ class HeaderControl {
 
     const newSelection = document.createElement('div');
     newSelection.classList.add('minor-select');
-    newSelection.style.maxHeight = '0';
+    // newSelection.style.maxHeight = '0';
     newSelection.style.backgroundColor = page.color;
     
     const rootLink = document.createElement('a');
     rootLink.text = page.name;
-    rootLink.href = new URL(page.link, this.pageData.options?.basePath).href;
     rootLink.classList.add('category-link');
     rootLink.style.backgroundColor = page.color;
     rootLink.style.color = this.getTextColor(rootLink.style.backgroundColor);
+
+    if (!this.arrayEquals(pagePath, this.currentPage)) {
+      rootLink.href = new URL(page.link, this.pageData.options?.basePath).href;
+    } 
+    if (this.arrayEquals(pagePath, this.currentPage)) {
+      rootLink.style.fontWeight = 'bold';
+    }
 
     newSelection.appendChild(rootLink);
 
@@ -191,11 +226,25 @@ class HeaderControl {
       menu.style.color = this.getTextColor(menu.style.backgroundColor);
       menu.classList.add('category-button');
       if (page.categories.length > 0) {
-        menu.addEventListener('click', () => {
+        menu.style.fontStyle = 'italic';
+        const openCallback = () => {
+          console.log('open');
           this.open([...pagePath, page.name]);
-        });
-      } else {
+          menu.removeEventListener('click', openCallback);
+          menu.addEventListener('click', closeCallback);
+        };
+        const closeCallback = () => {
+          console.log('close');
+          this.close(pagePath.length);
+          menu.removeEventListener('click', closeCallback);
+          menu.addEventListener('click', openCallback);
+        };
+        menu.addEventListener('click', openCallback);
+      } else if (!this.arrayEquals([...pagePath, page.name], this.currentPage)) {
         menu.href = new URL(page.link, this.pageData.options?.basePath).href;
+      } 
+      if (this.arrayEquals([...pagePath, page.name], this.currentPage)) {
+        menu.style.fontWeight = 'bold';
       }
 
       newSelection.appendChild(menu);
@@ -203,6 +252,7 @@ class HeaderControl {
 
     this.element.append(newSelection);
     
-    setTimeout(()=>newSelection.style.maxHeight = '', 100);
+    // TODO: Try to animate this in the future
+    // setTimeout(()=>newSelection.style.maxHeight = '', 100);
   }
 }
