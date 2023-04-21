@@ -83,17 +83,19 @@ class HeaderControl {
     pageTitle.style.flexDirection = "column";
     pageTitle.style.textAlign = "center";
 
+    const subcategories = [...current];
+    subcategories.shift();
+
     const pageGroup = document.createElement("a");
     pageGroup.appendChild(document.createTextNode(current[0]));
     pageGroup.style.color = this.getTextColor(pageTitle.style.backgroundColor);
-    pageGroup.href = links[0].href;
+    if (subcategories.length > 0) {
+      pageGroup.href = links[0].href;
+    }
     pageGroup.id = "main-title";
 
     const currentCatagory = document.createElement("span");
     currentCatagory.id = "sub-title";
-
-    const subcategories = [...current];
-    subcategories.shift();
 
     for (let i = 0; i < subcategories.length; i++) {
       const link = document.createElement('a');
