@@ -94,6 +94,10 @@ class HeaderControl {
       }
     }
 
+    if (subcategories.length < 1) {
+      currentCatagory.innerHTML = '&nbsp;';
+    }
+
     pageTitle.appendChild(pageGroup);
     pageTitle.appendChild(currentCatagory);
 
