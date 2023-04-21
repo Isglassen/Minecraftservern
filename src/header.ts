@@ -18,6 +18,17 @@ type page = {
 class HeaderControl {
   pageData: pagesContainer;
   element: JQuery<HTMLElement>;
+  currentlySelecting: string[] = [];
+
+  public getPage(names: string[]): page {
+    let currentData: page = { color: "", name: "", link: "", categories: this.pageData.pages };
+
+    names.forEach((name) => {
+      currentData = currentData.categories.filter(value => value.name == name)[0];
+    });
+
+    return currentData;
+  }
 
   public getTextColor(rgbString: string) {
     const values = rgbString.slice(rgbString.indexOf('(') + 1, rgbString.indexOf(')')).split(',');
@@ -60,6 +71,10 @@ class HeaderControl {
 
     element.css("display", "flex");
     element.css("background-color", currentData.color);
+
+    const mainHeader = document.createElement("div");
+    mainHeader.id = 'main-header';
+    element.append(mainHeader);
 
     const pageTitle = document.createElement("div");
     pageTitle.id = 'page-title';
@@ -111,21 +126,73 @@ class HeaderControl {
       pageInteractable.style.backgroundColor = page.color;
       pageInteractable.style.color = this.getTextColor(pageInteractable.style.backgroundColor);
       pageInteractable.addEventListener('click', () => {
-        this.openSelector(page.name);
+        this.open([page.name]);
       });
 
       menues.appendChild(pageInteractable);
     });
 
-    element.append(pageTitle);
-    element.append(menues);
+    mainHeader.append(pageTitle);
+    mainHeader.append(menues);
   }
 
-  closeSelector() {
-    // TODO
+  close(level: number) {
+    this.element.find(`div.minor-select:nth-child(n+${level+2})`).remove();
   }
 
-  openSelector(id: string) {
-    // TODO
+  open(id: string[]) {
+    // TODO: Clicking again should simply run close
+
+    // Check how many levels to remove
+    let level = 0;
+
+    while (this.currentlySelecting[level] == id[level] && (level < this.currentlySelecting.length || level < id.length)) {
+      level++;
+    }
+
+    this.close(level);
+
+    this.currentlySelecting = [...id];
+
+    // Expand what is needed
+    for (let i = level; i < id.length; i++) {
+      this.addLevel(id.slice(0, i+1));
+    }
+  }
+
+  addLevel(pagePath: string[]) {
+    const page = this.getPage(pagePath);
+
+    const newSelection = document.createElement('div');
+    newSelection.classList.add('minor-select');
+    newSelection.style.maxHeight = '0';
+    newSelection.style.backgroundColor = page.color;
+    
+    const rootLink = document.createElement('a');
+    rootLink.text = page.name;
+    rootLink.href = new URL(page.link, this.pageData.options?.basePath).href;
+    rootLink.classList.add('category-link');
+    rootLink.style.backgroundColor = page.color;
+    rootLink.style.color = this.getTextColor(rootLink.style.backgroundColor);
+
+    newSelection.appendChild(rootLink);
+
+    // Append new category expanders in list
+    page.categories.forEach((page) => {
+      const menu = document.createElement('span');
+      menu.innerText = page.name;
+      menu.style.backgroundColor = page.color;
+      menu.style.color = this.getTextColor(menu.style.backgroundColor);
+      menu.classList.add('category-button');
+      menu.addEventListener('click', () => {
+        this.open([...pagePath, page.name]);
+      });
+
+      newSelection.appendChild(menu);
+    });
+
+    this.element.append(newSelection);
+    
+    setTimeout(()=>newSelection.style.maxHeight = '', 100);
   }
 }
