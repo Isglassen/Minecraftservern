@@ -99,12 +99,12 @@ class HeaderControl {
       const link = document.createElement('a');
       link.style.color = this.getTextColor(pageTitle.style.backgroundColor);
       link.classList.add('subcategory');
-      link.href = links[i+1].href;
       link.appendChild(document.createTextNode(subcategories[i]));
 
       currentCatagory.appendChild(link);
       
       if (i + 1 != subcategories.length) {
+        link.href = links[i+1].href;
         currentCatagory.appendChild(document.createTextNode(' > '));
       }
     }
@@ -120,14 +120,18 @@ class HeaderControl {
     menues.id = 'categories';
 
     contentJson.pages.forEach((page) => {
-      const pageInteractable = document.createElement('span');
+      const pageInteractable = document.createElement('a');
       pageInteractable.appendChild(document.createTextNode(page.name));
       pageInteractable.classList.add('major-category');
       pageInteractable.style.backgroundColor = page.color;
       pageInteractable.style.color = this.getTextColor(pageInteractable.style.backgroundColor);
-      pageInteractable.addEventListener('click', () => {
-        this.open([page.name]);
-      });
+      if (page.categories.length > 0) {
+        pageInteractable.addEventListener('click', () => {
+          this.open([page.name]);
+        });
+      } else {
+        pageInteractable.href = new URL(page.link, this.pageData.options?.basePath).href;
+      }
 
       menues.appendChild(pageInteractable);
     });
@@ -179,14 +183,18 @@ class HeaderControl {
 
     // Append new category expanders in list
     page.categories.forEach((page) => {
-      const menu = document.createElement('span');
+      const menu = document.createElement('a');
       menu.innerText = page.name;
       menu.style.backgroundColor = page.color;
       menu.style.color = this.getTextColor(menu.style.backgroundColor);
       menu.classList.add('category-button');
-      menu.addEventListener('click', () => {
-        this.open([...pagePath, page.name]);
-      });
+      if (page.categories.length > 0) {
+        menu.addEventListener('click', () => {
+          this.open([...pagePath, page.name]);
+        });
+      } else {
+        menu.href = new URL(page.link, this.pageData.options?.basePath).href;
+      }
 
       newSelection.appendChild(menu);
     });
