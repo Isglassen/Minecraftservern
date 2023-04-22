@@ -12,7 +12,28 @@
 
   <script src="../../script/header.js"></script>
 
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid;
+    }
+
+    th, td {
+      padding: 1mm;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+  </style>
+
   <script>
+
+    const converter = new showdown.Converter();
+    converter.setOption('tables', true)
+    converter.setOption('disableForced4SpacesIndentedSublists', true)
+
     $(async () => {
       let pageDataText = await fetch("../../navigation.json");
       let pageData = await pageDataText.json();
@@ -21,6 +42,18 @@
         pageData.options.basePath = window.location.origin
       }
       headerControl = new HeaderControl(["Otiria", "Röstning"], pageData);
+
+      let fileUrl = new URL("../../filer/otiria/röstning/boten.md", window.location.href);
+      console.log(fileUrl);
+
+      let file = await fetch(fileUrl);
+      let text = await file.text();
+      //console.log(text)
+
+      let html = converter.makeHtml(text);
+      //console.log(html)
+
+      $("#content").html(html);
     })
   </script>
 </head>
@@ -29,7 +62,7 @@
   <div class="main-container">
     <header id="header"></header>
 
-    Här var det inte klart
+    <div id="content" style="padding-left: 5mm; overflow-y: auto;"></div>
   </div>
 </body>
 
