@@ -14,7 +14,6 @@ type page = {
   link: string;
 }
 
-// TODO: Try to automatically determine the correct current path
 
 /* exported HeaderControl */
 class HeaderControl {
@@ -68,6 +67,7 @@ class HeaderControl {
 
     const basePath = contentJson.options?.basePath != null ? contentJson.options.basePath : window.location.origin;
 
+    // TODO: Try to automatically determine the correct current path
     current.forEach((name) => {
       currentData = currentData.categories.filter(value => value.name == name)[0];
       console.log(currentData);
@@ -144,20 +144,15 @@ class HeaderControl {
       pageInteractable.style.backgroundColor = page.color;
       pageInteractable.style.color = this.getTextColor(pageInteractable.style.backgroundColor);
       if (page.categories.length > 0) {
+        pageInteractable.id = `0-${page.name}`;
         pageInteractable.style.fontStyle = 'italic';
-        const openCallback = () => {
-          console.log('open');
-          this.open([page.name]);
-          pageInteractable.removeEventListener('click', openCallback);
-          pageInteractable.addEventListener('click', closeCallback);
-        };
-        const closeCallback = () => {
-          console.log('close');
-          this.close(0);
-          pageInteractable.removeEventListener('click', closeCallback);
-          pageInteractable.addEventListener('click', openCallback);
-        };
-        pageInteractable.addEventListener('click', openCallback);
+        $(pageInteractable).on('click', () => {
+          if ($(`#${pageInteractable.id}`).attr('data-open') == '1') {
+            this.close(0);
+          } else {
+            this.open([page.name]);
+          }
+        });
       } else if (!this.arrayEquals([page.name], this.currentPage)) {
         pageInteractable.href = new URL(page.link, this.pageData.options?.basePath).href;
       } 
@@ -173,8 +168,14 @@ class HeaderControl {
   }
 
   close(level: number) {
+    // Remove everything on a higher level
     this.currentlySelecting = this.currentlySelecting.slice(0, level);
     this.element.find(`div.minor-select:nth-child(n+${level+2})`).remove();
+
+    // Update all elements to have the closed state
+    this.getPage(this.currentlySelecting).categories.forEach(category => {
+      $(`#${level}-${category.name}`).attr('data-open', '0');
+    });
   }
 
   open(id: string[]) {
@@ -186,6 +187,9 @@ class HeaderControl {
     }
 
     this.close(level);
+
+    // Update to the close event listener
+    $(`#${level}-${id[id.length-1]}`).attr('data-open', '1');
 
     this.currentlySelecting = [...id];
 
@@ -226,20 +230,15 @@ class HeaderControl {
       menu.style.color = this.getTextColor(menu.style.backgroundColor);
       menu.classList.add('category-button');
       if (page.categories.length > 0) {
+        menu.id = `${pagePath.length}-${page.name}`;
         menu.style.fontStyle = 'italic';
-        const openCallback = () => {
-          console.log('open');
-          this.open([...pagePath, page.name]);
-          menu.removeEventListener('click', openCallback);
-          menu.addEventListener('click', closeCallback);
-        };
-        const closeCallback = () => {
-          console.log('close');
-          this.close(pagePath.length);
-          menu.removeEventListener('click', closeCallback);
-          menu.addEventListener('click', openCallback);
-        };
-        menu.addEventListener('click', openCallback);
+        $(menu).on('click', () => {
+          if ($(`#${menu.id}`).attr('data-open') == '1') {
+            this.close(pagePath.length);
+          } else {
+            this.open([...pagePath, page.name]);
+          }
+        });
       } else if (!this.arrayEquals([...pagePath, page.name], this.currentPage)) {
         menu.href = new URL(page.link, this.pageData.options?.basePath).href;
       } 
