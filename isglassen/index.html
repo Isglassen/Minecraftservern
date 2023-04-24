@@ -4,10 +4,33 @@
 <head>
   <!--TODO-->
   <script src="../script/localhostRedirects.js"></script>
+
+  <link rel="stylesheet" href="../style/style.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+
+  <script src="../script/header.js"></script>
+
+  <script>
+    $(async () => {
+      let pageDataText = await fetch("../navigation.json");
+      let pageData = await pageDataText.json();
+
+      if (window.location.hostname == 'localhost') {
+        pageData.options.basePath = window.location.origin
+      }
+      headerControl = new HeaderControl(["Isglassen"], pageData);
+    })
+  </script>
 </head>
 
 <body>
-  Här var det inte klart
+  <div class="main-container">
+    <header id="header"></header>
+
+    Här var det inte klart
+  </div>
 </body>
 
 </html>

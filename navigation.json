@@ -33,6 +33,19 @@
       ]
     },
     {
+      "name": "Isglassen",
+      "link": "./isglassen",
+      "color": "#0F0",
+      "categories": [
+        {
+          "name": "Transport",
+          "link": "./isglassen/transport",
+          "color": "#0F0",
+          "categories": []
+        }
+      ]
+    },
+    {
       "name": "Filer",
       "link": "./filer/",
       "color": "#FF0",
