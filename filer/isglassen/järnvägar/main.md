@@ -1,8 +1,8 @@
-# Isglass Transport
+# Isglass Järnvägar
 
-![Isglass Transport Loggan](../../filer/isglassen/transport/IsglassTransport.png)
+![Isglass Järnvägar Loggan](../../filer/isglassen/järnvägar/IsglassJärnvägar.png)
 
-Isglass Transport är ett företag som bygger och sköter transport järnvägar på servern.
+Isglass Järnvägar är ett företag som bygger och sköter transport järnvägar på servern.
 
 Företaget ägs helt av **Isglassen_**, och är baserat i Otiria.
 
@@ -12,7 +12,7 @@ För tillfället har företaget inga järnvägar öppna.
 
 ## Samarbeta med oss
 
-Om ni vill ha ett samarbete med Isglass Transport kan ni kontakta `Isglassen#0001` på discord
+Om ni vill ha ett samarbete med Isglass Järnvägar kan ni kontakta `Isglassen#0001` på discord
 
 ### Konstruktion
 

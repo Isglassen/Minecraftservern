@@ -38,8 +38,8 @@
       "color": "#0F0",
       "categories": [
         {
-          "name": "Transport",
-          "link": "./isglassen/transport",
+          "name": "Järnvägar",
+          "link": "./isglassen/järnvägar",
           "color": "#0F0",
           "categories": []
         }
