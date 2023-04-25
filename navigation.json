@@ -4,7 +4,7 @@
     {
       "name": "Start",
       "link": "./start/",
-      "color": "#00F",
+      "color": "#359",
       "categories": []
     },
     {
@@ -44,12 +44,6 @@
           "categories": []
         }
       ]
-    },
-    {
-      "name": "Filer",
-      "link": "./filer/",
-      "color": "#FF0",
-      "categories": []
     }
   ],
   "options": {

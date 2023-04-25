@@ -2,7 +2,25 @@
 <html>
 
 <head>
-  <!--TODO-->
+  <title>Minecraftservern Online</title>
+  <meta name="theme-color" content="#335599" />
+
+  <meta property="og:title" content="Minecraftservern Online" />
+  <meta property="og:url" content="https://isglassen.github.io/Minecraftservern/start/" />
+  <meta property="og:description"
+    content="Minecraftservern Online är ett företag på Minecraftservern ägt av Isglassen_ som håller i information om servern online." />
+  <meta property="og:locale" content="sv-SE" />
+  <meta property="og:site_name" content="Minecraftservern" />
+
+  <!-- <meta property="og:image:url"
+    content="http://isglassen.github.io/Minecraftservern/filer/isglassen/transport/512IsglassTransport.png" />
+  <meta property="og:image:secure_url"
+    content="https://isglassen.github.io/Minecraftservern/filer/isglassen/transport/512IsglassTransport.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Isglass Transport Logga" /> -->
+
   <script src="../script/localhostRedirects.js"></script>
 
   <link rel="stylesheet" href="../style/style.css" />
@@ -13,6 +31,11 @@
   <script src="../script/header.js"></script>
 
   <script>
+
+    const converter = new showdown.Converter();
+    converter.setOption('tables', true)
+    converter.setOption('disableForced4SpacesIndentedSublists', true)
+
     $(async () => {
       let pageDataText = await fetch("../navigation.json");
       let pageData = await pageDataText.json();
@@ -21,6 +44,18 @@
         pageData.options.basePath = window.location.origin
       }
       headerControl = new HeaderControl(["Start"], pageData);
+
+      let fileUrl = new URL("../filer/start/main.md", window.location.href);
+      console.log(fileUrl);
+
+      let file = await fetch(fileUrl);
+      let text = await file.text();
+      //console.log(text)
+
+      let html = converter.makeHtml(text);
+      //console.log(html)
+
+      $("#content").html(html);
     })
   </script>
 </head>
@@ -29,7 +64,7 @@
   <div class="main-container">
     <header id="header"></header>
 
-    Här var det inte klart
+    <div id="content" style="padding-left: 5mm; overflow-y: auto;"></div>
   </div>
 </body>
 
