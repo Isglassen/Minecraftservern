@@ -6,7 +6,7 @@ Isglass Transport är ett företag som bygger och sköter transport järnvägar 
 
 Företaget ägs helt av **Isglassen_**, och är baserat i Otiria.
 
-## Sammarbeten
+## Samarbeten
 
 - [Otiria](otiria/)
 
@@ -16,4 +16,4 @@ För tillfället har Isglass Transport inga järnvägar öppna.
 
 ## Kontakt
 
-Om du vill ha ett sammarbete med Isglass Transport kan du kontakta `Isglassen#0001` på discord.
+Om du vill ha ett samarbete med Isglass Transport kan du kontakta `Isglassen#0001` på discord.

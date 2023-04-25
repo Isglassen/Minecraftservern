@@ -1,1 +1,1 @@
-# Isglass Transport i sammarbete med [Otiria](../../../otiria/)
+# Isglass Transport i samarbete med [Otiria](../../../otiria/)
