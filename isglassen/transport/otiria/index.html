@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Isglass Transport</title>
+  <meta name="theme-color" content="#77ff77" />
+
+  <meta property="og:title" content="Isglass Transport i Otiria" />
+  <meta property="og:url" content="https://isglassen.github.io/Minecraftservern/isglassen/transport/otiria/" />
+  <meta property="og:description"
+    content="Otirias järnvägar, drivna av Isglass Transport" />
+  <meta property="og:locale" content="sv-SE" />
+  <meta property="og:site_name" content="Minecraftservern" />
+
+  <meta property="og:image:url"
+    content="http://isglassen.github.io/Minecraftservern/filer/isglassen/transport/512IsglassTransport.png" />
+  <meta property="og:image:secure_url"
+    content="https://isglassen.github.io/Minecraftservern/filer/isglassen/transport/512IsglassTransport.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Isglass Transport Logga" />
+
+  <script src="../../../script/localhostRedirects.js"></script>
+
+  <link rel="stylesheet" href="../../../style/style.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+
+  <script src="../../../script/header.js"></script>
+
+  <script>
+
+    const converter = new showdown.Converter();
+    converter.setOption('tables', true)
+    converter.setOption('disableForced4SpacesIndentedSublists', true)
+
+    $(async () => {
+      let pageDataText = await fetch("../../../navigation.json");
+      let pageData = await pageDataText.json();s
+
+      if (window.location.hostname == 'localhost') {
+        pageData.options.basePath = window.location.origin
+      }
+      headerControl = new HeaderControl(["Isglassen", "Transport", "Otiria"], pageData);
+
+      let fileUrl = new URL("../../../filer/isglassen/transport/main.md", window.location.href);
+      console.log(fileUrl);
+
+      let file = await fetch(fileUrl);
+      let text = await file.text();
+      //console.log(text)
+
+      let html = converter.makeHtml(text);
+      //console.log(html)
+
+      $("#content").html(html);
+    })
+  </script>
+</head>
+
+<body>
+  <div class="main-container">
+    <header id="header"></header>
+
+    <div id="content" style="padding-left: 5mm; overflow-y: auto;"></div>
+  </div>
+</body>
+
+</html>

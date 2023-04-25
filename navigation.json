@@ -41,7 +41,14 @@
           "name": "Transport",
           "link": "./isglassen/transport",
           "color": "#0F0",
-          "categories": []
+          "categories": [
+            {
+              "name": "Otiria",
+              "link": "./isglassen/transport/otiria",
+              "color": "#7F7",
+              "categories": []
+            }
+          ]
         }
       ]
     },
