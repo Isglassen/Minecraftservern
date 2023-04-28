@@ -21,11 +21,21 @@ Detta kommer lägga till röstningen i databasen och skicka ett statusmeddelande
 | `namn`            | `name`          | Det namn röstningen ska ha                  | Text, max 64  |               |
 | `beskrivning`     | `description`   | Den beskrivning röstningen ska ha           | Text, max 512 |               |
 | `röstnings-kanal` | `vote-channel`  | Den kanal som röstningen ska hållas i       | Textkanal     |               |
-| `rösträtt`        | `voting-rights` | Den roll som krävs för att rösta            | Roll          | `@everyone`   |
-| `ping`            | `ping`          | Den roll som omnämns när röstningen startar | Roll          | *Ingen*       |
-| `live-resultat`   | `live-result`   | Ifall resultaten ska synas under röstningen | Boolean       | `False`       |
+| `rösträtt`        | `voting-rights` | Den roll som krävs för att rösta            | Roll          |  `@everyone`  |
+| `ping`            | `ping`          | Den roll som omnämns när röstningen startar | Roll          |    *Ingen*    |
+| `live-resultat`   | `live-result`   | Ifall resultaten ska synas under röstningen | Boolean       |    `False`    |
+| `start-tid`       | `start-time`    | Den timestamp som röstningen ska starta     | Heltal        |    *Ingen*    |
+| `slut-tid`        | `end-time`      | Den timestamp som röstningen ska sluta      | Heltal        |    *Ingen*    |
 
 Om det inte finns ett standardvärde anget så måste ett värde anges
+
+### Automatiska start & slut
+
+Automatiska start/slut tider ska anges som en epoch timestamp i sekunder, som går att generera för ett datum på t.ex. [epochconverter.com](https://epochconverter.com)
+
+Boten kommer automatiskt starta eller avsluta röstningen ca. varje 30 sekunder, och borde kolla sekund 0 och 30 i varje minut vid optimala omständigheter. Om en röstning är inställd till att sluta eller börja tidigare än nuvarande tiden när boten kollar kommer den automatiskt låtsas trycka på knappen åt dig. Om du t.ex. inte har tillräckligt många alternativ kommer boten inte starta röstningen eftersom det inte går.
+
+Om boten varit av kommer den vänta 10 minuter innan den börjar kolla dessa. Detta är så att man kan ändra tiderna ifall man ändrat sig medans boten var nere, specielt ifall man vill förlänga deadlinen på grund av botens inaktivitet
 
 ### Röstnings id
 
@@ -51,6 +61,8 @@ Alla dessa parametrarna kan ändras så länge röstningen inte startat genom at
 | `rösträtt`        | `/ändra-rösträtt`     | `/change-voting-rights` |
 | `ping`            | `/ändra-ping`         | `/change-ping`          |
 | `live-resultat`   | `/sätt-live-resultat` | `/set-live-result`      |
+| `start-tid`       | `/ändra-start`        | `/change-start`         |
+| `slut-tid`        | `/ändra-slut`         | `/change-end`           |
 
 De har alla två alternativ:
 
