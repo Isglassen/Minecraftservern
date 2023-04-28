@@ -4,7 +4,7 @@
     {
       "name": "Start",
       "link": "./start/",
-      "color": "#00F",
+      "color": "#359",
       "categories": []
     },
     {
@@ -38,8 +38,8 @@
       "color": "#0F0",
       "categories": [
         {
-          "name": "Transport",
-          "link": "./isglassen/transport",
+          "name": "Järnvägar",
+          "link": "./isglassen/järnvägar",
           "color": "#0F0",
           "categories": [
             {
@@ -51,12 +51,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "Filer",
-      "link": "./filer/",
-      "color": "#FF0",
-      "categories": []
     }
   ],
   "options": {
