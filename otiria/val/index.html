@@ -65,7 +65,7 @@
       if (window.location.hostname == 'localhost') {
         pageData.options.basePath = window.location.origin
       }
-      headerControl = new HeaderControl(["Otiria", "Valresultat"], pageData);
+      headerControl = new HeaderControl(pageData);
 
       document.getElementById('controls').appendChild(new SelectMenu('version', VERSIONS, LATEST_VERSION, updateHandler).element)
     })

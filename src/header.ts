@@ -14,7 +14,6 @@ type page = {
   link: string;
 }
 
-
 /* exported HeaderControl */
 class HeaderControl {
   pageData: pagesContainer;
@@ -30,6 +29,25 @@ class HeaderControl {
     });
 
     return currentData;
+  }
+
+  static findPage(pageJson: pagesContainer, currentHref: string): string[] {
+    console.log(currentHref);
+
+    function loopPages(pages: pages, currentPath: string[]): string[] | undefined {
+      const searching = [...currentPath];
+      for(let i=0; i<pages.length; i++) {
+        searching.push(pages[i].name);
+        console.log(searching, new FixedURL(pages[i].link, pageJson.options?.basePath).href);
+        if (new FixedURL(pages[i].link, pageJson.options?.basePath).href == currentHref) return searching;
+        const result = loopPages(pages[i].categories, searching);
+        if (result != undefined) return result;
+
+        searching.pop();
+      }
+    }
+
+    return loopPages(pageJson.pages, []) || [];
   }
 
   private arrayEquals<T>(a: T[], b: T[]) {
@@ -58,7 +76,9 @@ class HeaderControl {
     return textColour;
   }
 
-  constructor(current: string[], contentJson: pagesContainer) {
+  constructor(contentJson: pagesContainer, current?: string[]) {
+    if (current === undefined) current = HeaderControl.findPage(contentJson, window.location.href);
+
     this.currentPage = [...current];
     this.pageData = contentJson;
 
@@ -67,11 +87,10 @@ class HeaderControl {
 
     const basePath = contentJson.options?.basePath != null ? contentJson.options.basePath : window.location.origin;
 
-    // TODO: Try to automatically determine the correct current path
     current.forEach((name) => {
       currentData = currentData.categories.filter(value => value.name == name)[0];
       console.log(currentData);
-      links.push(new URL(currentData.link, basePath));
+      links.push(new FixedURL(currentData.link, basePath));
     });
 
     console.log(links);
@@ -88,9 +107,11 @@ class HeaderControl {
     mainHeader.id = 'main-header';
     element.append(mainHeader);
 
+    const currentName = current[0];
+
     const pageTitle = document.createElement("div");
     pageTitle.id = 'page-title';
-    pageTitle.style.backgroundColor = contentJson.pages.filter(page => page.name == current[0])[0].color;
+    pageTitle.style.backgroundColor = contentJson.pages.filter(page => page.name == currentName)[0].color;
     pageTitle.style.display = "flex";
     pageTitle.style.flexDirection = "column";
     pageTitle.style.textAlign = "center";
@@ -154,7 +175,7 @@ class HeaderControl {
           }
         });
       } else if (!this.arrayEquals([page.name], this.currentPage)) {
-        pageInteractable.href = new URL(page.link, this.pageData.options?.basePath).href;
+        pageInteractable.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
       } 
       if (this.arrayEquals([page.name], this.currentPage)) {
         pageInteractable.style.fontWeight = 'bold';
@@ -214,7 +235,7 @@ class HeaderControl {
     rootLink.style.color = this.getTextColor(rootLink.style.backgroundColor);
 
     if (!this.arrayEquals(pagePath, this.currentPage)) {
-      rootLink.href = new URL(page.link, this.pageData.options?.basePath).href;
+      rootLink.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
     } 
     if (this.arrayEquals(pagePath, this.currentPage)) {
       rootLink.style.fontWeight = 'bold';
@@ -240,7 +261,7 @@ class HeaderControl {
           }
         });
       } else if (!this.arrayEquals([...pagePath, page.name], this.currentPage)) {
-        menu.href = new URL(page.link, this.pageData.options?.basePath).href;
+        menu.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
       } 
       if (this.arrayEquals([...pagePath, page.name], this.currentPage)) {
         menu.style.fontWeight = 'bold';
