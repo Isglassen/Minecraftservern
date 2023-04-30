@@ -1,14 +1,6 @@
-if (window.location.hostname == 'localhost') {
-  if (window.location.pathname.endsWith('index.html')) {
-    window.location.pathname = window.location.pathname.substring(0, window.location.pathname.length - 'index.html'.length);
-  } else if (!window.location.pathname.endsWith('/')) {
-    window.location.pathname += '/';
-  }
-}
-
 /* exported FixedUrl */
 class FixedURL extends URL {
-  static fixURLobj(url: URL) {
+  static fixURLobj(url: URL | Location) {
     if (url.pathname.endsWith('index.html')) {
       url.pathname = url.pathname.substring(0, url.pathname.length - 'index.html'.length);
     } else if (!url.pathname.endsWith('/')) {
@@ -23,3 +15,6 @@ class FixedURL extends URL {
     FixedURL.fixURLobj(this);
   }
 }
+
+// GitHub does this for us. This check should be for any environment that doesn't
+if (window.location.hostname == 'localhost') FixedURL.fixURLobj(window.location);
