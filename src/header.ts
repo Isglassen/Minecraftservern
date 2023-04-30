@@ -32,13 +32,11 @@ class HeaderControl {
   }
 
   static findPage(pageJson: pagesContainer, currentHref: string): string[] {
-    console.log(currentHref);
 
     function loopPages(pages: pages, currentPath: string[]): string[] | undefined {
       const searching = [...currentPath];
       for(let i=0; i<pages.length; i++) {
         searching.push(pages[i].name);
-        console.log(searching, new FixedURL(pages[i].link, pageJson.options?.basePath).href);
         if (new FixedURL(pages[i].link, pageJson.options?.basePath).href == currentHref) return searching;
         const result = loopPages(pages[i].categories, searching);
         if (result != undefined) return result;
