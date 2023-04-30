@@ -3,7 +3,8 @@
     "lib": ["ES2022", "DOM"],
     "module": "commonjs",
     "outDir": "script/",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES6",
   },
   "exclude": [
     "node_modules"

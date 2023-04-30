@@ -41,14 +41,7 @@
           "name": "Järnvägar",
           "link": "./isglassen/järnvägar",
           "color": "#0F0",
-          "categories": [
-            {
-              "name": "Otiria",
-              "link": "./isglassen/transport/otiria",
-              "color": "#7F7",
-              "categories": []
-            }
-          ]
+          "categories": []
         }
       ]
     }

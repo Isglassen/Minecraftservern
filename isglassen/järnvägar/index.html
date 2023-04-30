@@ -43,7 +43,7 @@
       if (window.location.hostname == 'localhost') {
         pageData.options.basePath = window.location.origin
       }
-      headerControl = new HeaderControl(["Isglassen", "Järnvägar"], pageData);
+      headerControl = new HeaderControl(pageData);
 
       let fileUrl = new URL("../../filer/isglassen/järnvägar/main.md", window.location.href);
       console.log(fileUrl);
