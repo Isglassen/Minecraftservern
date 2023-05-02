@@ -1,16 +1,14 @@
 type pagesContainer = {
-  pages: pages;
+  pages: page[];
   options?: {
     basePath?: string;
   }
 }
 
-type pages = page[]
-
 type page = {
   color: string;
   name: string;
-  categories: pages;
+  categories: page[];
   link: string;
 }
 
@@ -33,7 +31,7 @@ class HeaderControl {
 
   static findPage(pageJson: pagesContainer, currentHref: string): string[] {
 
-    function loopPages(pages: pages, currentPath: string[]): string[] | undefined {
+    function loopPages(pages: page[], currentPath: string[]): string[] | undefined {
       const searching = [...currentPath];
       for(let i=0; i<pages.length; i++) {
         searching.push(pages[i].name);
