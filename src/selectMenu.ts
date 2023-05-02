@@ -1,9 +1,5 @@
 type OnUpdate = (oldValue: string | null, newValue: string) => void;
 
-type Stringable = {
-  toString: () => string;
-}
-
 type SelectValues = (SelectValue | string)[]
 type SelectValue = { name: string, value: string }
 
