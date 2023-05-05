@@ -47,7 +47,8 @@ Som alternativ till kommandon finns det 3 sätt att ange id:t:
 - `{server-id}.{röstnings-id}`. Detta är det egentligen korrekta formatet.
 - `{röstnings-id}`. Om du skriver in bara `röstnings-id`:t kommer autokorrekt förstå det och ge dig röstningar med id:n som börjar så
 - Ett av autokorrekt alternativen, som har formatet `{namn}: {tid skapad} ({sista 3 siffrorna i id:t})`.
-  - Du kan inte skriva in detta själv, utan måste använda autokorrekten eftersom discord konverterar detta till det första formated i hemlighet
+
+Du kan inte skriva in dessa själv, utan måste använda autokorrekten eftersom discord konverterar detta till det första formated i hemlighet
 
 ### Ändra parametrarna
 
