@@ -31,7 +31,7 @@ Om det inte finns ett standardvärde anget så måste ett värde anges
 
 ### Automatiska start & slut
 
-Automatiska start/slut tider ska anges som en epoch timestamp i sekunder, som går att generera för ett datum på t.ex. [unixtimestamp.com](https://www.unixtimestamp.com) eller [epochconverter.com](https://epochconverter.com)
+Automatiska start/slut tider ska anges som en unix timestamp i sekunder, som går att generera för ett datum på t.ex. [unixtimestamp.com](https://www.unixtimestamp.com) eller [epochconverter.com](https://epochconverter.com)
 
 Boten kommer automatiskt starta eller avsluta röstningen ca. varje 30 sekunder, och borde kolla sekund 0 och 30 i varje minut vid optimala omständigheter. Om en röstning är inställd till att sluta eller börja tidigare än nuvarande tiden när boten kollar kommer den automatiskt låtsas trycka på knappen åt dig. Om du t.ex. inte har tillräckligt många alternativ kommer boten inte starta röstningen eftersom det inte går.
 
