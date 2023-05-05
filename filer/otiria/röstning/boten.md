@@ -106,3 +106,5 @@ För att avsluta röstningen kan du trycka på *Avsluta röstning* knappan under
 Så hur fungerar allt detta egentligen?
 
 Det kommer snart, för jag orkar inte skriva mer idag
+
+TODO
