@@ -9,7 +9,7 @@ type page = {
   color: string;
   name: string;
   categories: page[];
-  link: string;
+  link?: string;
 }
 
 /* exported HeaderControl */
@@ -35,7 +35,8 @@ class HeaderControl {
       const searching = [...currentPath];
       for(let i=0; i<pages.length; i++) {
         searching.push(pages[i].name);
-        if (new FixedURL(pages[i].link, pageJson.options?.basePath).href == currentHref) return searching;
+        const page = pages[i];
+        if (page.link != undefined && new FixedURL(page.link, pageJson.options?.basePath).href == currentHref) return searching;
         const result = loopPages(pages[i].categories, searching);
         if (result != undefined) return result;
 
@@ -79,13 +80,14 @@ class HeaderControl {
     this.pageData = contentJson;
 
     let currentData: page = { color: "", name: "", link: "", categories: contentJson.pages };
-    const links: URL[] = [];
+    const links: (URL | null)[] = [];
 
     const basePath = contentJson.options?.basePath != null ? contentJson.options.basePath : window.location.origin;
 
     current.forEach((name) => {
       currentData = currentData.categories.filter(value => value.name == name)[0];
       console.log(currentData);
+      if (currentData.link === undefined) return links.push(null);
       links.push(new FixedURL(currentData.link, basePath));
     });
 
@@ -119,7 +121,8 @@ class HeaderControl {
     pageGroup.appendChild(document.createTextNode(current[0]));
     pageGroup.style.color = this.getTextColor(pageTitle.style.backgroundColor);
     if (subcategories.length > 0) {
-      pageGroup.href = links[0].href;
+      const link = links[0];
+      if (link !== null) pageGroup.href = link.href;
     } else {
       pageGroup.style.fontWeight = 'bold';
     }
@@ -135,9 +138,13 @@ class HeaderControl {
       link.appendChild(document.createTextNode(subcategories[i]));
 
       currentCatagory.appendChild(link);
+
+      const thisLink = links[i+1];
       
       if (i + 1 != subcategories.length) {
-        link.href = links[i+1].href;
+        if (thisLink !== null) {
+          link.href = thisLink.href;
+        }
         currentCatagory.appendChild(document.createTextNode(' > '));
       } else {
         link.style.fontWeight = 'bold';
@@ -171,7 +178,9 @@ class HeaderControl {
           }
         });
       } else if (!this.arrayEquals([page.name], this.currentPage)) {
-        pageInteractable.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
+        if (page.link !== undefined) {
+          pageInteractable.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
+        }
       } 
       if (this.arrayEquals([page.name], this.currentPage)) {
         pageInteractable.style.fontWeight = 'bold';
@@ -223,21 +232,25 @@ class HeaderControl {
     newSelection.classList.add('minor-select');
     // newSelection.style.maxHeight = '0';
     newSelection.style.backgroundColor = page.color;
+
+    if (page.link !== undefined) {
     
-    const rootLink = document.createElement('a');
-    rootLink.text = page.name;
-    rootLink.classList.add('category-link');
-    rootLink.style.backgroundColor = page.color;
-    rootLink.style.color = this.getTextColor(rootLink.style.backgroundColor);
+      const rootLink = document.createElement('a');
+      rootLink.text = page.name;
+      rootLink.classList.add('category-link');
+      rootLink.style.backgroundColor = page.color;
+      rootLink.style.color = this.getTextColor(rootLink.style.backgroundColor);
 
-    if (!this.arrayEquals(pagePath, this.currentPage)) {
-      rootLink.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
-    } 
-    if (this.arrayEquals(pagePath, this.currentPage)) {
-      rootLink.style.fontWeight = 'bold';
+      if (!this.arrayEquals(pagePath, this.currentPage)) {
+        rootLink.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
+      } 
+      if (this.arrayEquals(pagePath, this.currentPage)) {
+        rootLink.style.fontWeight = 'bold';
+      }
+
+      newSelection.appendChild(rootLink);
+
     }
-
-    newSelection.appendChild(rootLink);
 
     // Append new category expanders in list
     page.categories.forEach((page) => {
@@ -257,7 +270,9 @@ class HeaderControl {
           }
         });
       } else if (!this.arrayEquals([...pagePath, page.name], this.currentPage)) {
-        menu.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
+        if (page.link !== undefined) {
+          menu.href = new FixedURL(page.link, this.pageData.options?.basePath).href;
+        }
       } 
       if (this.arrayEquals([...pagePath, page.name], this.currentPage)) {
         menu.style.fontWeight = 'bold';
